@@ -27,5 +27,23 @@ router.get('/:id', (req, res) => {
 		message: "User found !",
 		user
 	});
-}); 
+});
+
+	//PUT new user
+	router.put('/', (req, res) => {
+		//get the data drom request from request
+		const { user } = req.body;
+		//Create new unique id
+		const id = _.uniqueId();
+		//Insert it in array
+		users.push({ user, id });
+		//return message 
+		res.json({
+			message: `just added ${id} name${user}`,
+			user: {user, id}
+	
+		});
+	});
+
+ 
 module.exports = router;
