@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
 		user
 	});
 });
-
+    
 	//PUT new user
 	router.put('/', (req, res) => {
 		//get the data drom request from request
@@ -39,11 +39,42 @@ router.get('/:id', (req, res) => {
 		users.push({ user, id });
 		//return message 
 		res.json({
-			message: `just added ${id} name${user}`,
 			user: {user, id}
 	
 		});
 	});
+
+	// UPDATE user
+	router.post('/n:id', (req, res) => {
+		//get the :id of the user we want to update from the params of the request
+		const { id } = req.params;
+		//get the new data of the user we want to update from the body of the request.
+		const { user } = req.body;
+		//find id BD
+		const userToUpdate = _.find(users, ["id", id]);
+		//update data with new data js is by address
+		userToUpdate.user = user
+		//return message
+		res.json({
+			message: `Just updatet ${id} with ${user}`
+		});
+	});
+
+	//DELETE user
+	router.delete('/:id', (req,res) =>{
+		//get the /id of the user we want to delete from the the params of the request
+		const {id}=req.params;
+		//remove from BD
+		_.remove(users,["id",id]);
+		//return message
+		res.json({
+			message:`Just removed ${id}`
+		});
+	})
+
+
+
+
 
  
 module.exports = router;
