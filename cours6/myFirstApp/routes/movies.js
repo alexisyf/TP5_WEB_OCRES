@@ -1,7 +1,5 @@
 var express = require('express');
-//const _ = require('lodash');
 var router = express.Router();
-
 var _ = require('lodash');
 
 
@@ -40,7 +38,19 @@ router.get('/:id', (req, res) => {
 }); 
 
 //put a new movie
-
+router.put('/', (req, res) => {
+	//get the data request from resqust
+	const { movie} = req.body;
+	//create new unique id
+	const id = _.uniqueId();
+	//insert it in array
+	movies.push({movie, id});
+	//return this message
+	res.json({
+		//message: `add this movie`,
+		movie: {movie, id}
+	});
+});
 
 
 

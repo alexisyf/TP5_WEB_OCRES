@@ -40,7 +40,6 @@ router.get('/:id', (req, res) => {
 		//return message 
 		res.json({
 			user: {user, id}
-	
 		});
 	});
 
