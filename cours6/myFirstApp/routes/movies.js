@@ -1,4 +1,5 @@
 var express = require('express');
+//const _ = require('lodash');
 var router = express.Router();
 
 var _ = require('lodash');
@@ -37,6 +38,10 @@ router.get('/:id', (req, res) => {
 		movie
 	});
 }); 
+
+//put a new movie
+
+
 
 
 module.exports = router;
