@@ -45,7 +45,7 @@ router.get('/:id', (req, res) => {
 	});
 
 	// UPDATE user
-	router.post('/n:id', (req, res) => {
+	router.post('/:id', (req, res) => {
 		//get the :id of the user we want to update from the params of the request
 		const { id } = req.params;
 		//get the new data of the user we want to update from the body of the request.
