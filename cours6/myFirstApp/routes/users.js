@@ -1,3 +1,4 @@
+const cookieParser = require('cookie-parser');
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
@@ -33,6 +34,7 @@ router.get('/:id', (req, res) => {
 	router.put('/', (req, res) => {
 		//get the data drom request from request
 		const { user } = req.body;
+		
 		//Create new unique id
 		const id = _.uniqueId();
 		//Insert it in array
@@ -52,7 +54,7 @@ router.get('/:id', (req, res) => {
 		//find id BD
 		const userToUpdate = _.find(users, ["id", id]);
 		//update data with new data js is by address
-		userToUpdate.user = user
+		userToUpdate.user = user;
 		//return message
 		res.json({
 			message: `Just updatet ${id} with ${user}`

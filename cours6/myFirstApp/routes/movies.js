@@ -1,3 +1,4 @@
+const { json } = require('express');
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
@@ -41,17 +42,38 @@ router.get('/:id', (req, res) => {
 router.put('/', (req, res) => {
 	//get the data request from resqust
 	const { movie} = req.body;
+	// const { poster } = req.body; TEST POUR PUT 
 	//create new unique id
 	const id = _.uniqueId();
 	//insert it in array
 	movies.push({movie, id});
 	//return this message
 	res.json({
-		//message: `add this movie`,
+		//message: `add this movie`,aaaaaa
 		movie: {movie, id}
 	});
 });
 
+//UPDATE movie
+router.post('/:id', (req, res) => {
+	const {id} = req.params;
+	const {user} = req.body;
+	//find in database
+	const userToUpdate = _.find(movies, ["id", id]);
+	userToUpdate.movie = movie;
+	res.json({
+		message: `Juste updated ${id} with ${movie}`
+	});
+})
+
+//DELETE MOVIE
+router.delete('/:id', (req,res) =>{
+	const {id} = req.params;
+	_.remove(movie,["id", id]);
+	res.json({
+		message: `juste removed ${id}`
+	})
+});
 
 
 module.exports = router;
