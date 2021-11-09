@@ -35,6 +35,7 @@ router.get('/:id', (req, res) => {
 	// Find movie in DB
 	const movie = _.find(movies, ["id", id]);
 	// Return user
+	console.log(movie);
 	res.status(200).json({
 		message: "Movie found !",
 		movie
@@ -71,10 +72,9 @@ router.put('/', async(req, res) => {
 	})
 	.then((response) => {
 		data = response.data;
-	
 		let info = {
 
-			id: movies.length,
+			id: (movies.length).toString(),
 			movie: data.Title,
 			yearOfRelease: data.Year,
 			duration: data.Runtime,
@@ -82,7 +82,6 @@ router.put('/', async(req, res) => {
 			poster: data.Poster,
 			boxOffice: data.BoxOffice,
 			rottenTomatoesScore: parseInt(data.Ratings[1].Value),
-
 		}
 
 		movies.push(info);
@@ -91,25 +90,26 @@ router.put('/', async(req, res) => {
 		.catch(function (error){
 			res.send('Film not found');
 		});
-
-
 });
 
-/*
+//UPDATE
+
+
+
 //UPDATE movie
 router.post('/:id', (req, res) => {
 	const {id} = req.params;
-	const {user} = req.body;
+	const {movie} = req.body;
 	//find in database
-	const userToUpdate = _.find(movies, ["id", id]);
-	userToUpdate.movie = movie;
+	const movieToUpdate = _.find(movies, ["id", id]);
+	movieToUpdate.movie = movie;
 	res.json({
 		message: `Juste updated ${id} with ${movie}`
 	});
 });
-*/
 
-//UPDATE movie with axios
+
+
 
 
 //DELETE MOVIE
