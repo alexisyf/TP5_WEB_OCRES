@@ -2,8 +2,11 @@ const { json } = require('express');
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
+var axios = require('axios');
 
 
+const API_KEY = '18a8cd59';
+const API_URL = 'http://www.omdbapi.com/';
 
 let movies = [{
 	id: "0",
@@ -37,7 +40,7 @@ router.get('/:id', (req, res) => {
 		movie
 	});
 }); 
-
+/*
 //put a new movie
 router.put('/', (req, res) => {
 	//get the data request from resqust
@@ -53,7 +56,46 @@ router.put('/', (req, res) => {
 		movie: {movie, id}
 	});
 });
+*/
 
+//put a new movies with axios
+router.put('/', async(req, res) => {
+	const {movie} = req.body;
+	console.log(movie);
+
+	await axios.get(API_URL, {
+		params:{
+			t:movie,
+			apikey:API_KEY,
+		}
+	})
+	.then((response) => {
+		data = response.data;
+	
+		let info = {
+
+			id: movies.length,
+			movie: data.Title,
+			yearOfRelease: data.Year,
+			duration: data.Runtime,
+			actors: data.Actors.split(","),
+			poster: data.Poster,
+			boxOffice: data.BoxOffice,
+			rottenTomatoesScore: parseInt(data.Ratings[1].Value),
+
+		}
+
+		movies.push(info);
+		res.send(movies)
+		})
+		.catch(function (error){
+			res.send('Film not found');
+		});
+
+
+});
+
+/*
 //UPDATE movie
 router.post('/:id', (req, res) => {
 	const {id} = req.params;
@@ -64,7 +106,11 @@ router.post('/:id', (req, res) => {
 	res.json({
 		message: `Juste updated ${id} with ${movie}`
 	});
-})
+});
+*/
+
+//UPDATE movie with axios
+
 
 //DELETE MOVIE
 router.delete('/:id', (req,res) =>{
@@ -72,7 +118,7 @@ router.delete('/:id', (req,res) =>{
 	_.remove(movie,["id", id]);
 	res.json({
 		message: `juste removed ${id}`
-	})
+	});
 });
 
 
