@@ -37,7 +37,7 @@ router.get('/:id', (req, res) => {
 	// Return user
 	console.log(movie);
 	res.status(200).json({
-		message: "Movie found !",
+		message: "Movie not found !",
 		movie
 	});
 }); 
@@ -95,7 +95,7 @@ router.put('/', async(req, res) => {
 //UPDATE
 
 
-
+/*
 //UPDATE movie
 router.post('/:id', (req, res) => {
 	const {id} = req.params;
@@ -107,8 +107,46 @@ router.post('/:id', (req, res) => {
 		message: `Juste updated ${id} with ${movie}`
 	});
 });
+*/
 
+//POST movie
+router.post('/:id', async(req, res) => {
+	const {id} = req.params;
+	const {postid} = id;
+	const {movie} = req.body;
+	const movieToUpdate = _.find(movies, ["id", id]);
 
+	await axios.get(API_URL, {
+		params:{
+			t:movie,
+			apikey:API_KEY,
+		}
+	})
+	.then((response) => {
+		//console.log(response);
+		data = response.data;
+		let info = {
+			id: movieToUpdate.id,
+			movie: data.Title,
+			yearOfRelease: data.Year,
+			duration: data.Runtime,
+			actors: data.Actors.split(","),
+			poster: data.Poster,
+			boxOffice: data.BoxOffice,
+			rottenTomatoesScore: parseInt(data.Ratings[1].Value),
+		}
+		console.log(info);
+		movieToUpdate.push(info);
+		
+		res.json({
+			message: `Juste updated ${id} with ${movie}`
+		});
+		res.send(movies)
+		})
+		.catch(function (error){
+			res.send('Film not found');
+		});
+});
 
 
 
